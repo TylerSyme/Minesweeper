@@ -1,16 +1,21 @@
-package com.minesweeper.msbackend.model;
+package com.minesweeper.msbackend.service;
 
+import com.minesweeper.msbackend.model.Board;
+import com.minesweeper.msbackend.model.Cell;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class BoardTest {
+class BoardServiceTest {
+
+    BoardService boardService = new BoardService();
 
     @Test
-    public void testBoardNumMines() {
+    void createBoard() {
+
         final int width = 10;
         final int numMines = 10;
-        Board board = new Board(width, numMines);
+        Board board = boardService.createBoard(width, numMines);
 
         int mineCount = 0;
         for (Cell[] cellRow : board.getCells()) {
@@ -22,6 +27,6 @@ class BoardTest {
         }
 
         assertEquals(numMines, mineCount);
-    }
 
+    }
 }
