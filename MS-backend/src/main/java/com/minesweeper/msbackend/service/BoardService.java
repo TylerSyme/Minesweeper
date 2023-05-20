@@ -10,6 +10,12 @@ import java.util.Random;
 
 public class BoardService {
 
+    Board board;
+
+    public Board getBoard() {
+        return board;
+    }
+
     public Board createBoard(int width, int numMines) {
 
         Cell[][] cells = new Cell[width][width];
@@ -33,7 +39,29 @@ public class BoardService {
             }
         }
 
-        return new Board(cells);
+        return this.board = new Board(cells);
+    }
+
+    public Board createBoard(Difficulty difficulty) {
+        return switch (difficulty) {
+            case easy -> createBoard(10, 10);
+            case medium -> createBoard(18, 40);
+            case hard -> createBoard(24, 100);
+        };
+    }
+
+    public boolean toggleFlag(Coordinate coordinate) {
+        Cell target = this.board.getCells()[coordinate.x()][coordinate.y()];
+        if (target.isMine() || target.isRevealed()) {
+            return target.setFlagged(false);
+        }
+        return target.setFlagged(!target.isFlagged());
+    }
+
+    public enum Difficulty {
+        easy,
+        medium,
+        hard
     }
 
 }

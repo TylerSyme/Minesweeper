@@ -30,8 +30,9 @@ public class Cell {
         return flagged;
     }
 
-    public void setFlagged(boolean flagged) {
+    public boolean setFlagged(boolean flagged) {
         this.flagged = flagged;
+        return flagged;
     }
 
 }

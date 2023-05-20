@@ -29,4 +29,24 @@ class BoardServiceTest {
         assertEquals(numMines, mineCount);
 
     }
+
+    @Test
+    void createMediumBoard() {
+
+        final int width = 18;
+        final int numMines = 40;
+        Board board = boardService.createBoard(BoardService.Difficulty.medium);
+
+        int mineCount = 0;
+        for (Cell[] cellRow : board.getCells()) {
+            for (Cell cell : cellRow) {
+                if (cell.isMine()) {
+                    mineCount++;
+                }
+            }
+        }
+
+        assertEquals(width, board.getCells().length);
+        assertEquals(numMines, mineCount);
+    }
 }
