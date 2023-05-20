@@ -12,7 +12,7 @@ class BoardServiceTest {
     BoardService boardService = new BoardService();
 
     @Test
-    void createBoard() {
+    void testCreateBoard() {
 
         final int width = 10;
         final int numMines = 10;
@@ -32,7 +32,7 @@ class BoardServiceTest {
     }
 
     @Test
-    void createMediumBoard() {
+    void testCreateMediumBoard() {
 
         final int width = 18;
         final int numMines = 40;
@@ -52,7 +52,7 @@ class BoardServiceTest {
     }
 
     @Test
-    void toggleFlag() {
+    void testToggleFlag() {
 
         final int width = 1;
         final int numMines = 0;
@@ -64,7 +64,7 @@ class BoardServiceTest {
     }
 
     @Test
-    void toggleFlagMine() {
+    void testToggleFlagMine() {
 
         final int width = 1;
         final int numMines = 1;
@@ -74,4 +74,29 @@ class BoardServiceTest {
         boardService.toggleFlag(new Coordinate(0, 0));
         assertFalse(board.getCells()[0][0].isFlagged());
     }
+
+    @Test
+    void testReveal() {
+
+        final int width = 1;
+        final int numMines = 0;
+        Board board = boardService.createBoard(width, numMines);
+
+        assertFalse(board.getCells()[0][0].isRevealed());
+        assertFalse(boardService.reveal(new Coordinate(0, 0)));
+        assertTrue(board.getCells()[0][0].isRevealed());
+    }
+
+    @Test
+    void testRevealMine() {
+
+        final int width = 1;
+        final int numMines = 1;
+        Board board = boardService.createBoard(width, numMines);
+
+        assertFalse(board.getCells()[0][0].isRevealed());
+        assertTrue(boardService.reveal(new Coordinate(0, 0)));
+        assertTrue(board.getCells()[0][0].isRevealed());
+    }
+
 }

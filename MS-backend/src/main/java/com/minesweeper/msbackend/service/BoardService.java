@@ -16,6 +16,12 @@ public class BoardService {
         return board;
     }
 
+    /**
+     * Create a new board
+     * @param width size of the board
+     * @param numMines number of mines on the board
+     * @return new board
+     */
     public Board createBoard(int width, int numMines) {
 
         Cell[][] cells = new Cell[width][width];
@@ -42,6 +48,11 @@ public class BoardService {
         return this.board = new Board(cells);
     }
 
+    /**
+     * Create a new board
+     * @param difficulty easy, medium or hard difficulty
+     * @return new board
+     */
     public Board createBoard(Difficulty difficulty) {
         return switch (difficulty) {
             case easy -> createBoard(10, 10);
@@ -50,12 +61,28 @@ public class BoardService {
         };
     }
 
+    /**
+     * Toggle a flag
+     * @param coordinate coordinate to flag
+     * @return flag value
+     */
     public boolean toggleFlag(Coordinate coordinate) {
         Cell target = this.board.getCells()[coordinate.x()][coordinate.y()];
         if (target.isMine() || target.isRevealed()) {
             return target.setFlagged(false);
         }
         return target.setFlagged(!target.isFlagged());
+    }
+
+    /**
+     * Reveal a spot
+     * @param coordinate coordinate to reveal
+     * @return true if revealed mine, false if safe
+     */
+    public boolean reveal(Coordinate coordinate) {
+        Cell target = this.board.getCells()[coordinate.x()][coordinate.y()];
+        target.setRevealed(true);
+        return target.isMine();
     }
 
     public enum Difficulty {
