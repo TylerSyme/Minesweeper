@@ -52,6 +52,18 @@ class BoardServiceTest {
     }
 
     @Test
+    void testCreateBoardAdjacentMines() {
+
+        final int width = 3;
+        final int numMines = 9;
+        Board board = boardService.createBoard(width, numMines);
+
+        assertEquals(3, board.getCells()[0][0].getAdjacentMines());
+        assertEquals(5, board.getCells()[0][1].getAdjacentMines());
+        assertEquals(8, board.getCells()[1][1].getAdjacentMines());
+    }
+
+    @Test
     void testToggleFlag() {
 
         final int width = 1;

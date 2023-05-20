@@ -45,6 +45,38 @@ public class BoardService {
             }
         }
 
+        // Calculate number of adjacent mines
+        for (int row = 0; row < width; row++) {
+            for (int col = 0; col < width; col++) {
+                int adjacentMines = 0;
+                if (row > 0 && col > 0 && cells[row - 1][col - 1].isMine()) {
+                    adjacentMines++;
+                }
+                if (row > 0 && cells[row - 1][col].isMine()) {
+                    adjacentMines++;
+                }
+                if (row > 0 && col < width - 1 && cells[row - 1][col + 1].isMine()) {
+                    adjacentMines++;
+                }
+                if (col > 0 && cells[row][col - 1].isMine()) {
+                    adjacentMines++;
+                }
+                if (col < width - 1 && cells[row][col + 1].isMine()) {
+                    adjacentMines++;
+                }
+                if (row < width - 1 && col > 0 && cells[row + 1][col - 1].isMine()) {
+                    adjacentMines++;
+                }
+                if (row < width - 1 && cells[row + 1][col].isMine()) {
+                    adjacentMines++;
+                }
+                if (row < width - 1 && col < width - 1 && cells[row + 1][col + 1].isMine()) {
+                    adjacentMines++;
+                }
+                cells[row][col].setAdjacentMines(adjacentMines);
+            }
+        }
+
         return this.board = new Board(cells);
     }
 
@@ -75,11 +107,12 @@ public class BoardService {
     }
 
     /**
-     * Reveal a spot
+     * Reveal a cell
      * @param coordinate coordinate to reveal
      * @return true if revealed mine, false if safe
      */
     public boolean reveal(Coordinate coordinate) {
+        // TODO: update full board instead --> reveal needs to expand
         Cell target = this.board.getCells()[coordinate.x()][coordinate.y()];
         target.setRevealed(true);
         return target.isMine();

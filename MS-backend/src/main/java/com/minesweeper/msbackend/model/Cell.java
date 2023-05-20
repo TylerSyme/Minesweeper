@@ -6,6 +6,8 @@ public class Cell {
     private boolean revealed = false;
     private boolean flagged = false;
 
+    private int adjacentMines = 0;
+
     public Cell(boolean mine) {
         this.mine = mine;
     }
@@ -33,6 +35,14 @@ public class Cell {
     public boolean setFlagged(boolean flagged) {
         this.flagged = flagged;
         return flagged;
+    }
+
+    public int getAdjacentMines() {
+        return adjacentMines;
+    }
+
+    public void setAdjacentMines(int adjacentMines) {
+        this.adjacentMines = adjacentMines;
     }
 
 }
