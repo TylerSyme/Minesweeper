@@ -2,22 +2,31 @@ package com.minesweeper.msbackend.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.Optional;
 
-public class Board {
+public record Board(Cell[][] cells) {
 
-    private Cell[][] cells;
-
-    public Board(Cell[][] cells) {
-        this.cells = cells;
+    public Optional<Cell> getCell(int row, int col) {
+        if (row > 0 && row < cells.length && col > 0 && col < cells.length) {
+            return Optional.ofNullable(cells[row][col]);
+        }
+        return Optional.empty();
     }
 
-    public Cell[][] getCells() {
-        return cells;
-    }
+    public List<Cell> getNeighborCells(int row, int col) {
 
-    public void setCells(Cell[][] cells) {
-        this.cells = cells;
+        List<Cell> neighbors = new ArrayList<>();
+
+        getCell(row - 1, col - 1).ifPresent(neighbors::add);
+        getCell(row - 1, col).ifPresent(neighbors::add);
+        getCell(row - 1, col + 1).ifPresent(neighbors::add);
+        getCell(row, col - 1).ifPresent(neighbors::add);
+        getCell(row, col + 1).ifPresent(neighbors::add);
+        getCell(row + 1, col - 1).ifPresent(neighbors::add);
+        getCell(row + 1, col).ifPresent(neighbors::add);
+        getCell(row + 1, col + 1).ifPresent(neighbors::add);
+
+        return neighbors;
     }
 
 }

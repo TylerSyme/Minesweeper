@@ -4,13 +4,13 @@ import com.minesweeper.msbackend.model.Board;
 import com.minesweeper.msbackend.model.Cell;
 import com.minesweeper.msbackend.model.Coordinate;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 public class BoardService {
 
     Board board;
+    int boardWidth;
 
     public Board getBoard() {
         return board;
@@ -24,60 +24,40 @@ public class BoardService {
      */
     public Board createBoard(int width, int numMines) {
 
+        boardWidth = width;
         Cell[][] cells = new Cell[width][width];
+        board = new Board(cells);
 
         for (int row = 0; row < width; row++) {
             for (int col = 0; col < width; col++) {
-                cells[row][col] = new Cell(false);
+                cells[row][col] = new Cell(row, col);
             }
         }
 
         // Generate unique mine positions for the board
-        List<Coordinate> mineLocations = new ArrayList<>();
+        int mineCounter = 0;
         Random random = new Random();
 
-        while (mineLocations.size() < numMines) {
-            Coordinate coordinate = new Coordinate(random.nextInt(width), random.nextInt(width));
-
-            if (!mineLocations.contains(coordinate)) {
-                mineLocations.add(coordinate);
-                cells[coordinate.x()][coordinate.y()].setMine(true);
+        while (mineCounter < numMines) {
+            Optional<Cell> cell = board.getCell(random.nextInt(width), random.nextInt(width));
+            if (cell.isPresent() && !cell.get().isMine()) {
+                cell.get().setMine();
+                mineCounter++;
             }
         }
 
         // Calculate number of adjacent mines
         for (int row = 0; row < width; row++) {
             for (int col = 0; col < width; col++) {
-                int adjacentMines = 0;
-                if (row > 0 && col > 0 && cells[row - 1][col - 1].isMine()) {
-                    adjacentMines++;
+                if (cells[row][col].isMine()) {
+                    for (Cell cell : board.getNeighborCells(row, col)) {
+                        cell.incrementAdjacentMines();
+                    }
                 }
-                if (row > 0 && cells[row - 1][col].isMine()) {
-                    adjacentMines++;
-                }
-                if (row > 0 && col < width - 1 && cells[row - 1][col + 1].isMine()) {
-                    adjacentMines++;
-                }
-                if (col > 0 && cells[row][col - 1].isMine()) {
-                    adjacentMines++;
-                }
-                if (col < width - 1 && cells[row][col + 1].isMine()) {
-                    adjacentMines++;
-                }
-                if (row < width - 1 && col > 0 && cells[row + 1][col - 1].isMine()) {
-                    adjacentMines++;
-                }
-                if (row < width - 1 && cells[row + 1][col].isMine()) {
-                    adjacentMines++;
-                }
-                if (row < width - 1 && col < width - 1 && cells[row + 1][col + 1].isMine()) {
-                    adjacentMines++;
-                }
-                cells[row][col].setAdjacentMines(adjacentMines);
             }
         }
 
-        return this.board = new Board(cells);
+        return board;
     }
 
     /**
@@ -99,8 +79,8 @@ public class BoardService {
      * @return flag value
      */
     public boolean toggleFlag(Coordinate coordinate) {
-        Cell target = this.board.getCells()[coordinate.x()][coordinate.y()];
-        if (target.isMine() || target.isRevealed()) {
+        Cell target = board.cells()[coordinate.x()][coordinate.y()];
+        if (target.isRevealed()) {
             return target.setFlagged(false);
         }
         return target.setFlagged(!target.isFlagged());
@@ -108,14 +88,27 @@ public class BoardService {
 
     /**
      * Reveal a cell
-     * @param coordinate coordinate to reveal
-     * @return true if revealed mine, false if safe
+     * @param row int
+     * @param col int
+     * @return true if mine is revealed, false otherwise
      */
-    public boolean reveal(Coordinate coordinate) {
-        // TODO: update full board instead --> reveal needs to expand
-        Cell target = this.board.getCells()[coordinate.x()][coordinate.y()];
-        target.setRevealed(true);
-        return target.isMine();
+    public boolean reveal(int row, int col) {
+        Optional<Cell> optionalCell = board.getCell(row, col);
+        if (optionalCell.isEmpty()) {
+            return false;
+        }
+        Cell target = optionalCell.get();
+        if (target.isMine()) {
+            target.setRevealed();
+            return true;
+        } else if (!target.isRevealed() && target.getAdjacentMines() == 0) {
+            target.setRevealed();
+            // Reveal all surrounding cells
+            for (Cell cell : board.getNeighborCells(row, col)) {
+                reveal(cell.getCoordinate().x(), cell.getCoordinate().y());
+            }
+        }
+        return false;
     }
 
     public enum Difficulty {

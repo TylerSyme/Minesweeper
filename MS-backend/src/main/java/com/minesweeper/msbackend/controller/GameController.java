@@ -39,7 +39,7 @@ public class GameController {
 
     @PostMapping("/reveal")
     public ResponseEntity<?> reveal(@RequestBody Coordinate coordinate) {
-        return new ResponseEntity<>(boardService.reveal(coordinate), HttpStatus.OK);
+        return new ResponseEntity<>(boardService.reveal(coordinate.x(), coordinate.y()), HttpStatus.OK);
     }
 
 }
