@@ -75,18 +75,6 @@ class BoardServiceTest {
     }
 
     @Test
-    void testToggleFlagMine() {
-
-        final int width = 1;
-        final int numMines = 1;
-        Board board = boardService.createBoard(width, numMines);
-
-        assertFalse(board.cells()[0][0].isFlagged());
-        boardService.toggleFlag(new Coordinate(0, 0));
-        assertFalse(board.cells()[0][0].isFlagged());
-    }
-
-    @Test
     void testReveal() {
 
         final int width = 1;

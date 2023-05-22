@@ -7,7 +7,7 @@ import java.util.Optional;
 public record Board(Cell[][] cells) {
 
     public Optional<Cell> getCell(int row, int col) {
-        if (row > 0 && row < cells.length && col > 0 && col < cells.length) {
+        if (row >= 0 && row < cells.length && col >= 0 && col < cells.length) {
             return Optional.ofNullable(cells[row][col]);
         }
         return Optional.empty();
