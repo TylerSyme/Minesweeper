@@ -52,9 +52,7 @@ class BoardServiceTest {
     @Test
     void testCreateBoardAdjacentMines() {
 
-        final int width = 3;
-        final int numMines = 9;
-        Board board = boardService.createBoard(width, numMines);
+        Board board = boardService.createBoard(3, 9);
 
         assertEquals(3, board.cells()[0][0].getAdjacentMines());
         assertEquals(5, board.cells()[0][1].getAdjacentMines());
@@ -64,9 +62,7 @@ class BoardServiceTest {
     @Test
     void testToggleFlag() {
 
-        final int width = 1;
-        final int numMines = 0;
-        Board board = boardService.createBoard(width, numMines);
+        Board board = boardService.createBoard(1, 0);
 
         assertFalse(board.cells()[0][0].isFlagged());
         boardService.toggleFlag(0, 0);
@@ -76,9 +72,7 @@ class BoardServiceTest {
     @Test
     void testReveal() {
 
-        final int width = 1;
-        final int numMines = 0;
-        Board board = boardService.createBoard(width, numMines);
+        Board board = boardService.createBoard(1, 0);
 
         assertFalse(board.cells()[0][0].isRevealed());
         assertFalse(boardService.reveal(0, 0));
@@ -88,9 +82,7 @@ class BoardServiceTest {
     @Test
     void testRevealMine() {
 
-        final int width = 1;
-        final int numMines = 1;
-        Board board = boardService.createBoard(width, numMines);
+        Board board = boardService.createBoard(1, 1);
 
         assertFalse(board.cells()[0][0].isRevealed());
         assertTrue(boardService.reveal(0, 0));
@@ -100,9 +92,7 @@ class BoardServiceTest {
     @Test
     void testMultiReveal() {
 
-        final int width = 2;
-        final int numMines = 0;
-        Board board = boardService.createBoard(width, numMines);
+        Board board = boardService.createBoard(2, 0);
 
         assertFalse(board.cells()[0][0].isRevealed());
         assertFalse(boardService.reveal(0, 0));
@@ -112,14 +102,29 @@ class BoardServiceTest {
     @Test
     void testToggleFlagRevealed() {
 
-        final int width = 1;
-        final int numMines = 0;
-        Board board = boardService.createBoard(width, numMines);
+        Board board = boardService.createBoard(1, 0);
 
         assertFalse(board.cells()[0][0].isFlagged());
-        boardService.reveal(0,0);
+        boardService.reveal(0, 0);
         boardService.toggleFlag(0, 0);
         assertFalse(board.cells()[0][0].isFlagged());
+    }
+
+    @Test
+    void testCheckWin() {
+
+        boardService.createBoard(1, 0);
+
+        boardService.reveal(0, 0);
+        assertTrue(boardService.checkWin());
+    }
+
+    @Test
+    void testCheckWin2() {
+
+        boardService.createBoard(1, 1);
+
+        assertTrue(boardService.checkWin());
     }
 
 }

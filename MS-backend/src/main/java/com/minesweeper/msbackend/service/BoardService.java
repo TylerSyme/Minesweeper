@@ -9,7 +9,8 @@ import java.util.Random;
 public class BoardService {
 
     Board board;
-    int boardWidth;
+    int width;
+    int numMines;
 
     public Board getBoard() {
         return board;
@@ -23,7 +24,8 @@ public class BoardService {
      */
     public Board createBoard(int width, int numMines) {
 
-        boardWidth = width;
+        this.width = width;
+        this.numMines = numMines;
         Cell[][] cells = new Cell[width][width];
         board = new Board(cells);
 
@@ -113,6 +115,22 @@ public class BoardService {
         }
 
         return false;
+    }
+
+    public boolean checkWin() {
+        int numRevealed = 0;
+        for (int row = 0; row < width; row++) {
+            for (int col = 0; col < width; col++) {
+                Optional<Cell> optionalCell = board.getCell(row, col);
+                if (optionalCell.isEmpty()) {
+                    return false;
+                }
+                if (optionalCell.get().isRevealed()) {
+                    numRevealed++;
+                }
+            }
+        }
+        return numRevealed == width * width - numMines;
     }
 
     public enum Difficulty {
