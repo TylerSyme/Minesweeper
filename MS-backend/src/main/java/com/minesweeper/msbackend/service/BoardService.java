@@ -2,7 +2,6 @@ package com.minesweeper.msbackend.service;
 
 import com.minesweeper.msbackend.model.Board;
 import com.minesweeper.msbackend.model.Cell;
-import com.minesweeper.msbackend.model.Coordinate;
 
 import java.util.Optional;
 import java.util.Random;
@@ -74,12 +73,13 @@ public class BoardService {
     }
 
     /**
-     * Toggle a flag
-     * @param coordinate coordinate to flag
+     * Toggle a flag for a cell on the board
+     * @param row int
+     * @param col int
      * @return flag value
      */
-    public boolean toggleFlag(Coordinate coordinate) {
-        Cell target = board.cells()[coordinate.x()][coordinate.y()];
+    public boolean toggleFlag(int row, int col) {
+        Cell target = board.cells()[row][col];
         if (target.isRevealed()) {
             return target.setFlagged(false);
         }
@@ -87,7 +87,7 @@ public class BoardService {
     }
 
     /**
-     * Reveal a cell
+     * Reveal a cell on the board
      * @param row int
      * @param col int
      * @return true if mine is revealed, false otherwise
@@ -97,7 +97,10 @@ public class BoardService {
         if (optionalCell.isEmpty()) {
             return false;
         }
+
         Cell target = optionalCell.get();
+        target.setFlagged(false);
+
         if (target.isMine()) {
             target.setRevealed();
             return true;
@@ -108,6 +111,7 @@ public class BoardService {
                 reveal(cell.getCoordinate().x(), cell.getCoordinate().y());
             }
         }
+
         return false;
     }
 

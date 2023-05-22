@@ -40,10 +40,6 @@ public class Cell {
         return adjacentMines;
     }
 
-    public void setAdjacentMines(int adjacentMines) {
-        this.adjacentMines = adjacentMines;
-    }
-
     public void incrementAdjacentMines() {
         this.adjacentMines++;
     }

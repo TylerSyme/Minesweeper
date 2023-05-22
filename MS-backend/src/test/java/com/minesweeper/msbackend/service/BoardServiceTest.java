@@ -2,7 +2,6 @@ package com.minesweeper.msbackend.service;
 
 import com.minesweeper.msbackend.model.Board;
 import com.minesweeper.msbackend.model.Cell;
-import com.minesweeper.msbackend.model.Coordinate;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -70,7 +69,7 @@ class BoardServiceTest {
         Board board = boardService.createBoard(width, numMines);
 
         assertFalse(board.cells()[0][0].isFlagged());
-        boardService.toggleFlag(new Coordinate(0, 0));
+        boardService.toggleFlag(0, 0);
         assertTrue(board.cells()[0][0].isFlagged());
     }
 
@@ -96,6 +95,31 @@ class BoardServiceTest {
         assertFalse(board.cells()[0][0].isRevealed());
         assertTrue(boardService.reveal(0, 0));
         assertTrue(board.cells()[0][0].isRevealed());
+    }
+
+    @Test
+    void testMultiReveal() {
+
+        final int width = 2;
+        final int numMines = 0;
+        Board board = boardService.createBoard(width, numMines);
+
+        assertFalse(board.cells()[0][0].isRevealed());
+        assertFalse(boardService.reveal(0, 0));
+        assertTrue(board.cells()[1][1].isRevealed());
+    }
+
+    @Test
+    void testToggleFlagRevealed() {
+
+        final int width = 1;
+        final int numMines = 0;
+        Board board = boardService.createBoard(width, numMines);
+
+        assertFalse(board.cells()[0][0].isFlagged());
+        boardService.reveal(0,0);
+        boardService.toggleFlag(0, 0);
+        assertFalse(board.cells()[0][0].isFlagged());
     }
 
 }

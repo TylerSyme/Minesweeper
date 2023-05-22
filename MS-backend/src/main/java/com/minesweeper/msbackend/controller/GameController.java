@@ -34,7 +34,7 @@ public class GameController {
 
     @PostMapping("/flag")
     public ResponseEntity<?> toggleFlag(@RequestBody Coordinate coordinate) {
-        return new ResponseEntity<>(boardService.toggleFlag(coordinate), HttpStatus.OK);
+        return new ResponseEntity<>(boardService.toggleFlag(coordinate.x(), coordinate.y()), HttpStatus.OK);
     }
 
     @PostMapping("/reveal")
