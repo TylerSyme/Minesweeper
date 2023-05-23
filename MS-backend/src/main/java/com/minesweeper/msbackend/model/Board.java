@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public record Board(Cell[][] cells) {
+public record Board(Cell[][] cells, int width, int numMines) {
 
     public Optional<Cell> getCell(int row, int col) {
         if (row >= 0 && row < cells.length && col >= 0 && col < cells.length) {
