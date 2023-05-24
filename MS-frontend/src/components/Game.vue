@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {ref} from "vue";
+import {backendBaseUrl} from "../main.ts";
 
 const board = ref<Board | undefined>(undefined);
 
@@ -13,6 +14,27 @@ enum Difficulty {
 const selectedDifficulty = ref<Difficulty | undefined>(undefined);
 const boardWidth = ref<number>(1);
 const numMines = ref<number>(1);
+
+function startGame() {
+  let requestUrl = backendBaseUrl + "/api/difficulty/" + selectedDifficulty.value;
+  if (selectedDifficulty.value as string === "custom") {
+    requestUrl = backendBaseUrl + "/api/custom?size=" + boardWidth.value + "&numMines=" + numMines.value;
+  }
+
+  console.log("requestUrl: " + requestUrl);
+
+  fetch(requestUrl, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error(response.statusText);
+    }
+  }).then(data => board.value = data).catch(error => console.log(error));
+}
 </script>
 
 <template>
@@ -25,7 +47,7 @@ const numMines = ref<number>(1);
              :class="difficulty === selectedDifficulty ? 'bg-red-600' : 'bg-darkgray-800'">{{
           difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
         }}</label>
-      <div v-if="difficulty === 'custom' && selectedDifficulty === 'custom'" class="flex pb-4">
+      <div v-if="difficulty === 'custom' && selectedDifficulty as string === 'custom'" class="flex flex-wrap pb-4">
         <div class="w-1/2 px-4 box-border">
           <label for="boardWidth" class="text-gray-200 pb-2 block text-center">Board width</label>
           <input type="number" id="boardWidth" v-model="boardWidth"
@@ -36,11 +58,16 @@ const numMines = ref<number>(1);
           <input type="number" id="numMines" v-model="numMines"
                  class="max-w-full w-full bg-darkgray-800 text-gray-200 py-2 px-4 border-0 outline-0 rounded"/>
         </div>
+        <div v-if="boardWidth * boardWidth < numMines" class="w-full pt-2 text-center text-red-500">
+          The board must be large enough to fit all mines
+        </div>
       </div>
     </div>
     <div class="text-center">
-      <button type="button" class="bg-red-600 hover:bg-red-700 text-gray-200 py-4 px-8 mt-4 rounded">Start</button>
+      <button type="button" class="bg-red-600 hover:bg-red-700 text-gray-200 py-4 px-8 mt-4 rounded" @click="startGame">
+        Start
+      </button>
     </div>
   </div>
-  <div v-else></div>
+  <div v-else>Wow board detected</div>
 </template>
