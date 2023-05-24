@@ -1,30 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 
-const defaultTheme = require('tailwindcss/defaultTheme');
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     container: {
-      center: true
+      center: true,
     },
     extend: {
       fontFamily: {
-        'sans': [
-          'Quicksand',
-          ...defaultTheme.fontFamily.sans
-        ],
-        'display': [
-          'Oxygen',
-          ...defaultTheme.fontFamily.sans
-        ]
+        sans: ["Quicksand", ...defaultTheme.fontFamily.sans],
+        display: ["Oxygen", ...defaultTheme.fontFamily.sans],
       },
       colors: {
         darkgray: {
-          800: '#202226',
-          900: '#121618'
-        }
-      }
+          800: "#202226",
+          900: "#121618",
+        },
+      },
     },
   },
   plugins: [],
