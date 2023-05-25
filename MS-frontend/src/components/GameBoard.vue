@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {ref} from "vue";
+import GameBoardCell from "./GameBoardCell.vue";
 
 const props = defineProps<{
   initialBoard: Board
@@ -17,7 +18,7 @@ const flagsLeft = ref<number>(props.initialBoard.numMines as number);
     <div class="flex flex-wrap">
       <template v-for="(row, rowIndex) in board?.cells" :key="rowIndex">
         <template v-for="(cell, colIndex) in row" :key="colIndex">
-          <div class="bg-blue-400 aspect-square" :style="{width: (100/board?.width) + '%'}">X</div>
+          <GameBoardCell :board-cell="cell" :display-width="100 / board?.width"/>
         </template>
       </template>
     </div>
