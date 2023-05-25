@@ -99,11 +99,14 @@ public class BoardService {
         Cell target = optionalCell.get();
         target.setFlagged(false);
 
+        if (target.isRevealed()) {
+            return false;
+        }
+        target.setRevealed();
+
         if (target.isMine()) {
-            target.setRevealed();
             return true;
-        } else if (!target.isRevealed() && target.getAdjacentMines() == 0) {
-            target.setRevealed();
+        } else if (target.getAdjacentMines() == 0) {
             // Reveal all surrounding cells
             for (Cell cell : board.getNeighborCells(row, col)) {
                 reveal(cell.getCoordinate().x(), cell.getCoordinate().y());

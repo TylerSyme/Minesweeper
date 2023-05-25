@@ -43,9 +43,9 @@ public class GameController {
     @PostMapping("/reveal")
     public ResponseEntity<?> reveal(@RequestBody Coordinate coordinate) {
         if (boardService.reveal(coordinate.x(), coordinate.y())) {
-            return new ResponseEntity<>(new RevealResponse(true, false), HttpStatus.OK);
+            return new ResponseEntity<>(new RevealResponse(true, false, boardService.getBoard()), HttpStatus.OK);
         }
-        return new ResponseEntity<>(new RevealResponse(false, boardService.checkWin()), HttpStatus.OK);
+        return new ResponseEntity<>(new RevealResponse(false, boardService.checkWin(), boardService.getBoard()), HttpStatus.OK);
     }
 
 }
