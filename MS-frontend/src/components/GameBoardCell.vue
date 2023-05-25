@@ -14,10 +14,10 @@ const props = defineProps<{
     <!--    <div v-else class="bg-darkgray-800 w-full h-full rounded"></div>-->
 
     <!--    TESTING  -->
-    <div class="w-full h-full rounded flex justify-center items-center"
-         :class="boardCell.mine ? 'bg-red-600' : 'bg-darkgray-800'"
-         @click="$emit('revealCell')"
-         @contextmenu.prevent="$emit('toggleFlag')">
+    <div class="w-full h-full flex justify-center items-center"
+         :class="[boardCell.mine ? 'bg-red-600' : 'bg-darkgray-800', boardCell.flagged ? 'rounded-full' : 'rounded', boardCell.revealed ? 'border-2 border-blue-500' : '']"
+         @click="$emit('revealCell', boardCell.coordinate)"
+         @contextmenu.prevent="$emit('toggleFlag', boardCell.coordinate)">
       <div v-if="boardCell.adjacentMines > 0" class="text-gray-200">{{ boardCell.adjacentMines }}</div>
     </div>
   </div>

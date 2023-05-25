@@ -22,12 +22,14 @@ function toggleFlag(coordinate: Coordinate) {
     }
     throw new Error(response.statusText);
   }).then(data => {
-    console.log("toggleFlag data: " + data);
-    // board.value?.cells[coordinate.x][coordinate.y].flagged = data;
+    if (board.value) {
+      board.value.cells[coordinate.x][coordinate.y].flagged = data;
+    }
   }).catch(error => console.log(error));
 }
 
 function revealCell(coordinate: Coordinate) {
+  console.log(JSON.stringify(coordinate));
   fetch(backendBaseUrl + "/api/reveal", {
     method: "POST",
     headers: {
@@ -40,13 +42,12 @@ function revealCell(coordinate: Coordinate) {
     }
     throw new Error(response.statusText);
   }).then(data => {
-    console.log("revealCell data: ");
-    console.log(data as RevealResponse);
     if (data.isMine) {
       // TODO: mine exploded
       console.log("Mine exploded");
     } else {
-      // TODO: reveal cell
+      // Update board for revealed cells
+      board.value = data.updatedBoard;
       // TODO: stuff if game is won
       if (data.gameWon) {
         console.log("You win");
