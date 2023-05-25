@@ -30,9 +30,8 @@ function startGame() {
   }).then(response => {
     if (response.ok) {
       return response.json();
-    } else {
-      throw new Error(response.statusText);
     }
+    throw new Error(response.statusText);
   }).then(data => board.value = data).catch(error => console.log(error));
 }
 </script>
