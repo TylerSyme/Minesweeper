@@ -15,6 +15,8 @@ enum Difficulty {
 const selectedDifficulty = ref<Difficulty | undefined>(undefined);
 const boardWidth = ref<number>(1);
 const numMines = ref<number>(1);
+const gameOverWon = ref<boolean>(false);
+const gameOverLost = ref<boolean>(false);
 
 function startGame() {
   let requestUrl = backendBaseUrl + "/api/difficulty/" + selectedDifficulty.value;
@@ -68,6 +70,12 @@ function startGame() {
     </div>
   </div>
   <div v-else>
-    <GameBoard :initialBoard="board" />
+    <GameBoard :initialBoard="board" @mine-exploded="() => gameOverLost = true" @game-won="() => gameOverWon = true" />
+    <div v-show="gameOverLost || gameOverWon" class="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+      <div class="bg-red-600 p-8 rounded">
+        <p v-if="gameOverLost" class="text-gray-200">Mine exploded...</p>
+        <p v-if="gameOverWon" class="text-gray-200">Game over - you win</p>
+      </div>
+    </div>
   </div>
 </template>

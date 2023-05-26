@@ -9,6 +9,8 @@ const props = defineProps<{
 const board = ref<Board | undefined>(props.initialBoard);
 const flagsLeft = ref<number>(props.initialBoard.numMines as number);
 
+const emit = defineEmits(["mineExploded", "gameWon"]);
+
 function toggleFlag(coordinate: Coordinate) {
   fetch(backendBaseUrl + "/api/flag", {
     method: "POST",
@@ -29,7 +31,6 @@ function toggleFlag(coordinate: Coordinate) {
 }
 
 function revealCell(coordinate: Coordinate) {
-  console.log(JSON.stringify(coordinate));
   fetch(backendBaseUrl + "/api/reveal", {
     method: "POST",
     headers: {
@@ -42,16 +43,12 @@ function revealCell(coordinate: Coordinate) {
     }
     throw new Error(response.statusText);
   }).then(data => {
+    // Update board for revealed cells
+    board.value = data.updatedBoard;
     if (data.isMine) {
-      // TODO: mine exploded
-      console.log("Mine exploded");
-    } else {
-      // Update board for revealed cells
-      board.value = data.updatedBoard;
-      // TODO: stuff if game is won
-      if (data.gameWon) {
-        console.log("You win");
-      }
+      emit("mineExploded");
+    } else if (data.gameWon) {
+      emit("gameWon");
     }
   }).catch(error => console.log(error));
 }
