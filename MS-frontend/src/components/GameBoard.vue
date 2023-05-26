@@ -1,20 +1,14 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 import GameBoardCell from "./GameBoardCell.vue";
 import {backendBaseUrl} from "../main.ts";
 
 const props = defineProps<{
   initialBoard: Board
 }>();
-let board = ref<Board | undefined>(undefined);
-let flagsLeft = ref<number>(0);
-
+const board = ref<Board>(props.initialBoard);
+const flagsLeft = ref<number>(props.initialBoard.numMines);
 const emit = defineEmits(["mineExploded", "gameWon"]);
-
-onMounted(() => {
-  board.value = props.initialBoard;
-  flagsLeft.value = props.initialBoard.numMines;
-});
 
 function toggleFlag(coordinate: Coordinate) {
   fetch(backendBaseUrl + "/api/flag", {
@@ -29,9 +23,7 @@ function toggleFlag(coordinate: Coordinate) {
     }
     throw new Error(response.statusText);
   }).then(data => {
-    if (board.value) {
-      board.value.cells[coordinate.x][coordinate.y].flagged = data;
-    }
+    (board.value as Board).cells[coordinate.x][coordinate.y].flagged = data;
   }).catch(error => console.log(error));
 }
 
