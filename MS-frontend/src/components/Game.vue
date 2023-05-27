@@ -38,7 +38,7 @@ function createGame(requestUrl) {
     <GameBoard :initialBoard="board" @mine-exploded="() => gameState = GameState.gameOverLost"
                @game-won="() => gameState = GameState.gameOverWon"/>
     <div v-show="gameState === GameState.gameOverLost || gameState === GameState.gameOverWon"
-         class="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+         class="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center">
       <div class="bg-red-600 p-8 rounded">
         <p v-if="gameState === GameState.gameOverLost" class="text-gray-200">Mine exploded...</p>
         <p v-else-if="gameState === GameState.gameOverWon" class="text-gray-200">Game over - you win</p>

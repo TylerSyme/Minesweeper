@@ -52,15 +52,15 @@ function revealCell(coordinate: Coordinate) {
 </script>
 
 <template>
-  <div class="bg-darkgray-900 rounded max-w-xl w-full p-8">
+  <div class="bg-darkgray-900 rounded p-8 m-16" :style="{width: `${board.width * 48}px`}">
     <div class="flex justify-center items-center pb-4 text-gray-200">
-      <span>Total mines: {{board?.numMines}}</span>
+      <span>Total mines: {{board.numMines}}</span>
       <span class="pl-8">Flags left: {{flagsLeft}}</span>
     </div>
     <div class="flex flex-wrap">
-      <template v-for="(row, rowIndex) in board?.cells" :key="rowIndex">
+      <template v-for="(row, rowIndex) in board.cells" :key="rowIndex">
         <template v-for="(cell, colIndex) in row" :key="colIndex">
-          <GameBoardCell :board-cell="cell" :display-width="100 / board?.width" @toggle-flag="toggleFlag" @reveal-cell="revealCell"/>
+          <GameBoardCell :board-cell="cell" :display-width="100 / board.width" @toggle-flag="toggleFlag" @reveal-cell="revealCell"/>
         </template>
       </template>
     </div>
