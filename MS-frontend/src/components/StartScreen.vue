@@ -44,31 +44,32 @@ function startGame(mode: Difficulty) {
     <div>
       <div class="py-2">
         <button
-            class="block rounded w-full p-4 text-gray-200 cursor-pointer italic text-center bg-opacity-70 shadow-lg backdrop-blur bg-darkgray-800 border-darkgray-800 border"
+            class="block cursor-pointer w-full text-gray-200 text-center transition-all duration-300"
+            :class="[showDifficulties ? 'rounded p-4 italic bg-opacity-70 shadow-lg backdrop-blur bg-darkgray-800 border-darkgray-800 border' : 'text-2xl pb-4 bg-transparent border-transparent']"
             @click="showDifficulties = !showDifficulties">{{
             Difficulty.custom.toUpperCase()
           }}
         </button>
       </div>
       <ExpandTransition>
-        <div v-show="!showDifficulties" class="flex flex-wrap pb-4">
+        <div v-show="!showDifficulties" class="flex flex-wrap">
           <div class="w-1/2 px-2 box-border">
             <label for="boardWidth" class="text-gray-200 pb-2 block text-center">Board width</label>
             <input type="text" id="boardWidth" v-model="boardWidth"
-                   class="max-w-full w-full bg-darkgray-800 text-gray-200 py-2 px-4 border-0 focus:outline-none rounded"/>
+                   class="appearance-none max-w-full w-full text-gray-200 caret-gray-200 py-2 px-4 focus:outline-none rounded bg-opacity-70 shadow-lg backdrop-blur bg-darkgray-800 border-darkgray-800 border"/>
           </div>
           <div class="w-1/2 px-2 box-border">
             <label for="numMines" class="text-gray-200 pb-2 block text-center">Number of mines</label>
             <input type="text" id="numMines" v-model="numMines"
-                   class="max-w-full w-full bg-darkgray-800 text-gray-200 py-2 px-4 border-0 focus:outline-none rounded"/>
+                   class="appearance-none max-w-full w-full text-gray-200 caret-gray-200 py-2 px-4 focus:outline-none rounded bg-opacity-70 shadow-lg backdrop-blur bg-darkgray-800 border-darkgray-800 border"/>
           </div>
           <div v-if="boardWidth * boardWidth < numMines" class="w-full pt-2 text-center text-red-500">
             The board must be large enough to fit all mines
           </div>
-          <div class="text-center pt-4">
-            <button type="button" class="bg-red-600 hover:bg-red-700 text-gray-200 py-4 px-8 rounded"
+          <div class="w-full text-center pt-8">
+            <button type="button" class="inline-block bg-red-600 hover:bg-red-700 text-gray-200 py-4 px-8 rounded"
                     @click="startGame(Difficulty.custom)">
-              Start
+              Create Game
             </button>
           </div>
         </div>
