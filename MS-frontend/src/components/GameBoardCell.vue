@@ -8,11 +8,14 @@ const props = defineProps<{
 <template>
   <div class="aspect-square bg-opacity-70 backdrop-blur bg-darkgray-800 select-none"
        :style="{width: props.displayWidth + '%'}">
-    <div v-if="boardCell.flagged" class="bg-red-600 w-full h-full"
+    <div v-if="boardCell.flagged" class="w-full h-full"
          @click="$emit('revealCell', boardCell.coordinate)"
-         @contextmenu.prevent="$emit('toggleFlag', boardCell.coordinate)"></div>
+         @contextmenu.prevent="$emit('toggleFlag', boardCell.coordinate)">
+      <img src="/flag.png" alt="Flag" class="w-full h-auto"/>
+    </div>
     <div v-else-if="boardCell.revealed && boardCell.mine" @contextmenu.prevent
-         class="w-full h-full bg-cyan-500 rounded-full">
+         class="w-full h-full">
+      <img src="/mine.png" alt="Mine" class="w-full h-auto"/>
     </div>
     <div v-else-if="boardCell.revealed" @contextmenu.prevent
          class="w-full h-full flex justify-center items-center">

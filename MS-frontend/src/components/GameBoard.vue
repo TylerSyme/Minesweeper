@@ -72,8 +72,8 @@ function revealCell(coordinate: Coordinate) {
 <template>
   <div class="bg-darkgray-900 rounded-lg p-16 pt-8 bg-opacity-30 shadow-lg backdrop-blur border-darkgray-800 border scroll-p-16" :style="{width: `${board.width * 48}px`}">
     <div class="flex justify-center items-center pb-8 text-gray-200">
-      <span>Total mines: {{ board.numMines }}</span>
-      <span class="pl-8">Flags left: {{ flagCount }}</span>
+      <span><img src="/mine.png" alt="Number of mines" class="h-full max-h-8 w-auto inline-block"/>{{ board.numMines }}</span>
+      <span class="pl-8"><img src="/flag.png" alt="Flags placed" class="h-full max-h-8 w-auto inline-block"/>{{ flagCount }}</span>
     </div>
     <div class="flex flex-wrap">
       <template v-for="(row, rowIndex) in board.cells" :key="rowIndex">
