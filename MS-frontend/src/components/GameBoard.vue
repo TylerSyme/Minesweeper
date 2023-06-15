@@ -8,7 +8,7 @@ const props = defineProps<{
 }>();
 const board = ref<Board>(props.initialBoard);
 const flagCount = ref<number>(0);
-const emit = defineEmits(["mineExploded", "gameWon"]);
+const emit = defineEmits(["backHome", "mineExploded", "gameWon"]);
 
 function toggleFlag(coordinate: Coordinate) {
   fetch(backendBaseUrl + "/api/flag", {
@@ -71,9 +71,13 @@ function revealCell(coordinate: Coordinate) {
 
 <template>
   <div class="bg-darkgray-900 rounded-lg p-16 pt-8 bg-opacity-30 shadow-lg backdrop-blur border-darkgray-800 border scroll-p-16" :style="{width: `${board.width * 48}px`}">
-    <div class="flex justify-center items-center pb-8 text-gray-200">
-      <span><img src="/mine.png" alt="Number of mines" class="h-full max-h-8 w-auto inline-block"/>{{ board.numMines }}</span>
-      <span class="pl-8"><img src="/flag.png" alt="Flags placed" class="h-full max-h-8 w-auto inline-block"/>{{ flagCount }}</span>
+    <div class="flex justify-between items-center pb-8 text-gray-200">
+      <span class="material-symbols-outlined p-1 cursor-pointer" @click="$emit('backHome')">arrow_back</span>
+      <div>
+        <span><img src="/mine.png" alt="Number of mines" class="h-full max-h-8 w-auto inline-block"/>{{ board.numMines }}</span>
+        <span class="pl-8"><img src="/flag.png" alt="Flags placed" class="h-full max-h-8 w-auto inline-block"/>{{ flagCount }}</span>
+      </div>
+      <span>Timer...</span>
     </div>
     <div class="flex flex-wrap">
       <template v-for="(row, rowIndex) in board.cells" :key="rowIndex">

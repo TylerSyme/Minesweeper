@@ -35,7 +35,8 @@ function createGame(requestUrl) {
     <StartScreen @create-game="createGame"/>
   </template>
   <template v-else>
-    <GameBoard :initialBoard="board" @mine-exploded="() => gameState = GameState.gameOverLost"
+    <GameBoard :initialBoard="board" @back-home="() => gameState = GameState.startScreen"
+               @mine-exploded="() => gameState = GameState.gameOverLost"
                @game-won="() => gameState = GameState.gameOverWon"/>
     <div v-show="gameState === GameState.gameOverLost || gameState === GameState.gameOverWon"
          class="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center">
