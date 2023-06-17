@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {backendBaseUrl} from "../main.ts";
-import ExpandTransition from "./Transitions/ExpandTransition.vue";
+import ExpandTransition from "./Effects/ExpandTransition.vue";
+import SkewButton from "./Effects/SkewButton.vue";
 
 const emit = defineEmits(["createGame"]);
 
@@ -30,25 +31,20 @@ function startGame(mode: Difficulty) {
     <h1 class="font-display text-5xl text-gray-200 text-center pb-12">Minesweeper</h1>
     <ExpandTransition>
       <div v-show="showDifficulties">
-        <div v-for="difficulty in [Difficulty.easy, Difficulty.medium, Difficulty.hard]" class="py-2">
-          <button
-              class="block rounded w-full p-4 text-gray-200 cursor-pointer italic text-center bg-opacity-70 shadow-lg backdrop-blur bg-darkgray-800 border-darkgray-800 border"
-              @click="startGame(difficulty)">{{
-              difficulty.toUpperCase()
-            }}
-          </button>
+        <div v-for="difficulty in [Difficulty.easy, Difficulty.medium, Difficulty.hard]" class="py-3">
+          <SkewButton @click="startGame(difficulty)">{{difficulty}}</SkewButton>
+        </div>
+        <div class="py-3">
+          <SkewButton @click="showDifficulties = !showDifficulties">{{Difficulty.custom}}</SkewButton>
         </div>
       </div>
     </ExpandTransition>
 
     <div>
       <div class="py-2">
-        <button
-            class="block cursor-pointer w-full text-gray-200 text-center transition-all duration-300"
-            :class="[showDifficulties ? 'rounded p-4 italic bg-opacity-70 shadow-lg backdrop-blur bg-darkgray-800 border-darkgray-800 border' : 'text-2xl pb-4 bg-transparent border-transparent']"
-            @click="showDifficulties = !showDifficulties">{{
-            Difficulty.custom.toUpperCase()
-          }}
+        <button v-if="!showDifficulties"
+            class="block cursor-pointer w-full text-gray-200 text-center uppercase text-2xl pb-4"
+            @click="showDifficulties = !showDifficulties">{{Difficulty.custom}}
         </button>
       </div>
       <ExpandTransition>
@@ -67,10 +63,7 @@ function startGame(mode: Difficulty) {
             The board must be large enough to fit all mines
           </div>
           <div class="w-full text-center pt-8">
-            <button type="button" class="inline-block bg-red-600 hover:bg-red-700 text-gray-200 py-4 px-8 rounded"
-                    @click="startGame(Difficulty.custom)">
-              Create Game
-            </button>
+            <SkewButton @click="startGame(Difficulty.custom)">Create Game</SkewButton>
           </div>
         </div>
       </ExpandTransition>
