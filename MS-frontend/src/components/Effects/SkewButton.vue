@@ -16,16 +16,18 @@
   font-size: 1.25rem;
   text-align: center;
   color: #f4f4f4;
+  border: 1px solid #f0075b;
+  background: transparent;
   text-transform: uppercase;
   letter-spacing: 2px;
   transform: skew(-15deg);
-  background: linear-gradient(150deg, rgba(215, 111, 190, 0.9), rgba(215, 111, 190, 0.4), rgba(47, 90,  188, 0.4), rgba(47, 90,  188, 0.9));
   transition: 0.2s ease-in;
 }
 
 .skew-btn:hover {
-  background: linear-gradient(150deg, rgba(215, 111, 190, 1), rgba(215, 111, 190, 0.8), rgba(47, 90,  188, 0.8), rgba(47, 90,  188, 1));
-  /*box-shadow: 0 0 10px #2196f3, 0 0 40px #2196f3, 0 0 80px #2196f3;*/
+  color: #1b1422;
+  background: #f0075b;
+  box-shadow: 0 0 10px #f0075b, 0 0 40px #f0075b, 0 0 80px #f0075b;
   transition: 0.2s ease-out;
 }
 
@@ -33,17 +35,18 @@
   position: absolute;
   bottom: -11px;
   right: -11px;
-  background: linear-gradient(150deg, rgba(215, 111, 190, 0.4), rgba(47, 90,  188, 0.4), rgba(47, 90,  188, 0.9));
 }
 
 .skew-btn span:nth-child(1) {
   height: 3px;
   width: 80%;
+  background: linear-gradient(90deg, transparent, #4f46e5);
 }
 
 .skew-btn span:nth-child(2) {
   height: 80%;
   width: 3px;
+  background: linear-gradient(transparent, #4f46e5);
 }
 
 .skew-btn span:nth-child(1):after, .skew-btn span:nth-child(2):after {
@@ -51,7 +54,7 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  background: linear-gradient(150deg, rgba(215, 111, 190, 0.7), rgba(47, 90,  188, 0.7), rgba(47, 90,  188, 0.9));
+  background: #4f46e5;
   transition: width 0.3s ease-in, height 0.3s ease-in;
 }
 
