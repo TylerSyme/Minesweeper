@@ -30,13 +30,11 @@ function startGame(mode: Difficulty) {
   <div class="bg-darkgray-900 rounded-lg max-w-lg w-full p-24 bg-opacity-30 shadow-lg backdrop-blur border-darkgray-800 border">
     <h1 class="font-display text-5xl text-gray-200 text-center pb-12">Minesweeper</h1>
     <ExpandTransition>
-      <div v-show="showDifficulties">
-        <div v-for="difficulty in [Difficulty.easy, Difficulty.medium, Difficulty.hard]" class="py-3">
+      <div v-show="showDifficulties" class="flex flex-col items-center gap-8">
+        <template v-for="difficulty in [Difficulty.easy, Difficulty.medium, Difficulty.hard]">
           <SkewButton @click="startGame(difficulty)">{{difficulty}}</SkewButton>
-        </div>
-        <div class="py-3">
-          <SkewButton @click="showDifficulties = !showDifficulties">{{Difficulty.custom}}</SkewButton>
-        </div>
+        </template>
+        <SkewButton @click="showDifficulties = !showDifficulties">{{Difficulty.custom}}</SkewButton>
       </div>
     </ExpandTransition>
 

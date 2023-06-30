@@ -74,8 +74,8 @@ function revealCell(coordinate: Coordinate) {
     <div class="flex justify-between items-center pb-8 text-gray-200">
       <span class="material-symbols-outlined p-1 cursor-pointer" @click="$emit('backHome')">arrow_back</span>
       <div>
-        <span><img src="/mine.png" alt="Number of mines" class="h-full max-h-8 w-auto inline-block"/>{{ board.numMines }}</span>
-        <span class="pl-8"><img src="/flag.png" alt="Flags placed" class="h-full max-h-8 w-auto inline-block"/>{{ flagCount }}</span>
+        <span><img src="/mine.png" alt="Number of mines" class="h-full max-h-8 w-auto inline-block mr-1"/>{{ board.numMines }}</span>
+        <span class="pl-8"><img src="/flag.png" alt="Flags placed" class="h-full max-h-8 w-auto inline-block mr-1"/>{{ flagCount }}</span>
       </div>
       <span>Timer...</span>
     </div>

@@ -1,120 +1,77 @@
-<!-- The animation used is similar to this: https://codepen.io/RobinTreur/pen/dGybQW -->
 <template>
-  <div class="relative text-gray-50 cursor-pointer v19">
-    <span class="btn-label block relative">
-      <slot></slot>
-    </span>
-    <span class="effect1 before:bg-indigo-600 after:bg-indigo-600">
-      <span class="before:bg-indigo-600 after:bg-indigo-600"></span>
-    </span>
-    <span class="effect2 bg-indigo-600 backdrop-blur bg-opacity-60"></span>
-  </div>
+  <button type="button" class="skew-btn">
+    <span></span>
+    <span></span>
+    <slot></slot>
+  </button>
 </template>
 
 <style scoped>
-.v19 .btn-label {
+.skew-btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
   text-align: center;
-  padding: 10px 30px;
-  z-index: 10;
-  line-height: 2;
-  transition: all 0.225s;
-  transition-delay: 0.45s;
+  color: #f4f4f4;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  transform: skew(-15deg);
+  background: linear-gradient(150deg, rgba(215, 111, 190, 0.9), rgba(215, 111, 190, 0.4), rgba(47, 90,  188, 0.4), rgba(47, 90,  188, 0.9));
+  transition: 0.2s ease-in;
 }
 
-.v19 .effect2 {
-  display: block;
+.skew-btn:hover {
+  background: linear-gradient(150deg, rgba(215, 111, 190, 1), rgba(215, 111, 190, 0.8), rgba(47, 90,  188, 0.8), rgba(47, 90,  188, 1));
+  /*box-shadow: 0 0 10px #2196f3, 0 0 40px #2196f3, 0 0 80px #2196f3;*/
+  transition: 0.2s ease-out;
+}
+
+.skew-btn span:nth-child(1), .skew-btn span:nth-child(2) {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: all 0.225s;
-  transform: skew(-20deg, 0deg) scaleX(1);
-  transition-delay: 0.45s;
+  bottom: -11px;
+  right: -11px;
+  background: linear-gradient(150deg, rgba(215, 111, 190, 0.4), rgba(47, 90,  188, 0.4), rgba(47, 90,  188, 0.9));
 }
 
-.v19 .effect1 {
-  display: block;
+.skew-btn span:nth-child(1) {
+  height: 3px;
+  width: 80%;
+}
+
+.skew-btn span:nth-child(2) {
+  height: 80%;
+  width: 3px;
+}
+
+.skew-btn span:nth-child(1):after, .skew-btn span:nth-child(2):after {
+  content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: all 0.225s;
-  transform: scale(0.9) skew(0deg, 0deg);
-  transition-delay: 0.15s;
-}
-
-.v19 .effect1:before, .v19 .effect1:after {
-  width: 60px;
-  opacity: 0;
-  content: '';
-  height: 1px;
-  position: absolute;
-  display: block;
-  transition: all 0.375s;
-  transition-delay: 0.3s;
-}
-
-.v19 .effect1:before {
-  top: 0;
-  left: calc(50% - 30px);
-}
-
-.v19 .effect1:after {
   bottom: 0;
-  right: calc(50% - 30px);
+  right: 0;
+  background: linear-gradient(150deg, rgba(215, 111, 190, 0.7), rgba(47, 90,  188, 0.7), rgba(47, 90,  188, 0.9));
+  transition: width 0.3s ease-in, height 0.3s ease-in;
 }
 
-.v19 .effect1 span:before, .v19 .effect1 span:after {
+.skew-btn span:nth-child(1):after {
+  height: 3px;
+  width: 0;
+}
+
+.skew-btn span:nth-child(2):after {
   height: 0;
-  transition-delay: 0s;
-  content: '';
-  position: absolute;
-  display: block;
-  width: 2px;
-  transition: all 0.225s;
+  width: 3px;
 }
 
-.v19 .effect1 span:before {
-  left: 0;
-  top: 0;
+.skew-btn:hover span:nth-child(1):after {
+  width: 100%;
+  transition: width 0.15s ease-out;
 }
 
-.v19 .effect1 span:after {
-  right: 0;
-  bottom: 0;
-}
-
-.v19:hover .effect1 {
-  transform: skew(-20deg, 0deg);
-}
-
-.v19:hover .effect1:before, .v19:hover .effect1:after {
-  transition-delay: 0s;
-  width: 30px;
-  opacity: 1;
-}
-
-.v19:hover .effect1:before {
-  left: 0;
-}
-
-.v19:hover .effect1:after {
-  right: 0;
-}
-
-.v19:hover .effect1 span:before, .v19:hover .effect1 span:after {
-  height: 30px;
-  transition-delay: 0.45s;
-}
-
-.v19:hover .effect2 {
-  transform: skew(-20deg, 0deg) scaleX(0.2);
-  background: transparent;
-  transition-delay: 0s;
-  opacity: 0;
+.skew-btn:hover span:nth-child(2):after {
+  height: 100%;
+  transition: height 0.15s ease-out;
 }
 </style>
