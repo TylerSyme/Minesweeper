@@ -3,6 +3,7 @@ import {ref} from "vue";
 import {backendBaseUrl} from "../main.ts";
 import ExpandTransition from "./Effects/ExpandTransition.vue";
 import SkewButton from "./Effects/SkewButton.vue";
+import ExpandingLine from "./Effects/ExpandingLine.vue";
 
 const emit = defineEmits(["createGame"]);
 
@@ -28,7 +29,10 @@ function startGame(mode: Difficulty) {
 
 <template>
   <div class="bg-darkgray-900 rounded-lg max-w-lg w-full p-24 bg-opacity-30 shadow-lg backdrop-blur border-darkgray-800 border">
-    <h1 class="font-display text-5xl text-gray-200 text-center pb-12 tracking-wide">Minesweeper</h1>
+    <h1 class="font-display text-5xl text-gray-200 text-center tracking-wide">Minesweeper</h1>
+    <div class="flex justify-center" :class="showDifficulties ? 'py-10' : 'pt-8 pb-4'">
+      <ExpandingLine :expanded="!showDifficulties" @click="showDifficulties = !showDifficulties" />
+    </div>
     <ExpandTransition>
       <div v-show="showDifficulties" class="flex flex-col items-center gap-8">
         <template v-for="difficulty in [Difficulty.easy, Difficulty.medium, Difficulty.hard]">
@@ -60,8 +64,8 @@ function startGame(mode: Difficulty) {
           <div v-if="boardWidth * boardWidth < numMines" class="w-full pt-2 text-center text-red-500">
             The board must be large enough to fit all mines
           </div>
-          <div class="w-full text-center pt-8">
-            <SkewButton @click="startGame(Difficulty.custom)">Create Game</SkewButton>
+          <div class="w-full pt-8 flex justify-center">
+            <SkewButton @click="startGame(Difficulty.custom)">Start</SkewButton>
           </div>
         </div>
       </ExpandTransition>

@@ -31,7 +31,7 @@
   transition: 0.2s ease-out;
 }
 
-.skew-btn span:nth-child(1), .skew-btn span:nth-child(2) {
+.skew-btn span, .skew-btn span {
   position: absolute;
   bottom: -11px;
   right: -11px;
@@ -49,7 +49,7 @@
   background: linear-gradient(transparent, #4f46e5);
 }
 
-.skew-btn span:nth-child(1):after, .skew-btn span:nth-child(2):after {
+.skew-btn span:after {
   content: "";
   position: absolute;
   bottom: 0;
