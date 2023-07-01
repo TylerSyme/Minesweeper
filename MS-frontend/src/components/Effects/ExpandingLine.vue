@@ -5,48 +5,24 @@ defineProps<{
 </script>
 
 <template>
-  <div class="expanding-line" :class="{triangle: expanded}">
-    <div class="bg-indigo-600"></div>
-    <div class="bg-indigo-600"></div>
+  <div class="relative h-8 w-16 cursor-pointer" :class="{'expanded-line': expanded}">
+    <div class="bg-indigo-600 inline-block absolute w-8 h-1 left-1/2 top-1/2 transition-transform duration-200"></div>
+    <div class="bg-indigo-600 inline-block absolute w-8 h-1 right-1/2 top-1/2 transition-transform duration-200"></div>
   </div>
 </template>
 
 <style scoped>
-.expanding-line {
-  position: relative;
-  height: 2rem;
-  width: 4rem;
-  cursor: pointer;
-}
-
-.expanding-line div {
-  display: inline-block;
-  position: absolute;
-  width: 2rem;
-  height: 4px;
-  top: 50%;
-  transition: transform 0.2s ease-out;
-}
-
-.expanding-line div:nth-child(1) {
-  left: 50%
-}
-
-.expanding-line div:nth-child(2) {
-  right: 50%
-}
-
-.expanding-line.triangle div:nth-child(1) {
+.expanded-line div:nth-child(1) {
   transform: rotate(-45deg);
   transform-origin: 0 100%;
 }
 
-.expanding-line.triangle div:nth-child(2) {
+.expanded-line div:nth-child(2) {
   transform: rotate(45deg);
   transform-origin: 100% 100%;
 }
 
-.expanding-line.triangle div {
+.expanded-line div {
   top: 80%;
   transition: transform 0.2s ease-out, top 0.2s;
 }

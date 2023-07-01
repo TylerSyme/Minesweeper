@@ -10,8 +10,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Quicksand", ...defaultTheme.fontFamily.sans],
-        display: ["Oxygen", ...defaultTheme.fontFamily.sans],
+        sans: ["Roboto Mono", ...defaultTheme.fontFamily.sans],
+        display: ["Unbounded", ...defaultTheme.fontFamily.sans],
       },
       colors: {
         darkgray: {
