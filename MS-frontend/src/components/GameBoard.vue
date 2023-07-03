@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
+import {computed, ref} from "vue";
 import GameBoardCell from "./GameBoardCell.vue";
 import {backendBaseUrl} from "../main.ts";
 
@@ -10,6 +10,7 @@ const emit = defineEmits(["backHome", "mineExploded", "gameWon"]);
 const board = ref<Board>(props.initialBoard);
 const flagCount = ref<number>(0);
 const secondsPast = ref(0);
+const secondsInterval = setInterval(() => secondsPast.value++, 1000);
 const displayTime = computed(() => {
 
   let seconds: number = secondsPast.value % 60;
@@ -23,11 +24,6 @@ const displayTime = computed(() => {
     return Math.trunc(minutes / 60) + ":" + (minutes % 60 < 10 ? "0" + minutes % 60 : minutes % 60) + ":" + (seconds < 10 ? "0" + seconds : seconds);
   } else return "--:--:--";
 });
-
-function updateTime() {
-  secondsPast.value++;
-  setTimeout(updateTime, 1000);
-}
 
 function toggleFlag(coordinate: Coordinate) {
   fetch(backendBaseUrl + "/api/flag", {
@@ -70,8 +66,10 @@ function revealCell(coordinate: Coordinate) {
     // Update board for revealed cells
     board.value = data.updatedBoard;
     if (data.isMine) {
+      clearInterval(secondsInterval);
       emit("mineExploded");
     } else if (data.gameWon) {
+      clearInterval(secondsInterval);
       emit("gameWon");
     }
     // Update flag count
@@ -86,8 +84,6 @@ function revealCell(coordinate: Coordinate) {
     flagCount.value = newFlagCount;
   }).catch(error => console.log(error));
 }
-
-onMounted(() => updateTime());
 </script>
 
 <template>
