@@ -9,19 +9,20 @@ const props = defineProps<{
 const emit = defineEmits(["backHome", "mineExploded", "gameWon"]);
 const board = ref<Board>(props.initialBoard);
 const flagCount = ref<number>(0);
+const playerWon = ref<boolean>(false);
 const secondsPast = ref(0);
 const secondsInterval = setInterval(() => secondsPast.value++, 1000);
 const displayTime = computed(() => {
 
   let seconds: number = secondsPast.value % 60;
-  let minutes: number = Math.trunc(secondsPast.value / 60);
+  let minutes: number = Math.trunc(secondsPast.value / 60) % 60;
 
   if (secondsPast.value < 60) {
     return secondsPast.value + "s";
   } else if (secondsPast.value < 60 * 60) {
     return minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
   } else if (secondsPast.value < 99 * 60 * 60) {
-    return Math.trunc(minutes / 60) + ":" + (minutes % 60 < 10 ? "0" + minutes % 60 : minutes % 60) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+    return Math.trunc(secondsPast.value / (60 * 60)) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
   } else return "--:--:--";
 });
 
@@ -70,6 +71,7 @@ function revealCell(coordinate: Coordinate) {
       emit("mineExploded");
     } else if (data.gameWon) {
       clearInterval(secondsInterval);
+      playerWon.value = true;
       emit("gameWon");
     }
     // Update flag count
@@ -96,7 +98,7 @@ function revealCell(coordinate: Coordinate) {
       </div>
       <div class="flex-1 text-right">{{ displayTime }}</div>
     </div>
-    <div class="flex flex-wrap">
+    <div class="flex flex-wrap relative neon-gradient" :class="{'neon-gradient-active': playerWon}">
       <template v-for="(row, rowIndex) in board.cells" :key="rowIndex">
         <template v-for="(cell, colIndex) in row" :key="colIndex">
           <GameBoardCell :board-cell="cell" :display-width="100 / board.width" @toggle-flag="toggleFlag"
@@ -106,3 +108,22 @@ function revealCell(coordinate: Coordinate) {
     </div>
   </div>
 </template>
+
+<style scoped>
+.neon-gradient:before, .neon-gradient:after {
+  content: "";
+  position: absolute;
+  inset: 50%;
+  z-index: -1;
+  transition: 1s ease-out;
+}
+
+.neon-gradient-active:before, .neon-gradient-active:after {
+  background: linear-gradient(135deg, #f0075b, transparent 40%, transparent 60%, #4f46e5);
+  inset: -4px;
+}
+
+.neon-gradient-active:after {
+  filter: blur(20px);
+}
+</style>
