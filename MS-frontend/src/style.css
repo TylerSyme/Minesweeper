@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Unbounded:wght@600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    user-select: none;
+}

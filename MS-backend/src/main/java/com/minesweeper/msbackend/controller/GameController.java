@@ -8,18 +8,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
+@RequestMapping("/api")
 public class GameController {
 
     BoardService boardService = new BoardService();
 
-    @PostMapping("/difficulty/{difficulty}")
+    @GetMapping("/difficulty/{difficulty}")
     public ResponseEntity<?> createGame(@PathVariable BoardService.Difficulty difficulty) {
         return new ResponseEntity<>(boardService.createBoard(difficulty), HttpStatus.OK);
     }
 
-    @PostMapping("/size/{size}/mines/{numMines}")
-    public ResponseEntity<?> createGame(@PathVariable int size, @PathVariable int numMines) {
-        if (size * size > numMines) {
+    @GetMapping("/custom")
+    public ResponseEntity<?> createGame(@RequestParam int size, @RequestParam int numMines) {
+        if (size * size < numMines) {
             return new ResponseEntity<>("Too many mines", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(boardService.createBoard(size, numMines), HttpStatus.OK);
@@ -41,9 +43,9 @@ public class GameController {
     @PostMapping("/reveal")
     public ResponseEntity<?> reveal(@RequestBody Coordinate coordinate) {
         if (boardService.reveal(coordinate.x(), coordinate.y())) {
-            return new ResponseEntity<>(new RevealResponse(true, false), HttpStatus.OK);
+            return new ResponseEntity<>(new RevealResponse(true, false, boardService.getBoard()), HttpStatus.OK);
         }
-        return new ResponseEntity<>(new RevealResponse(false, boardService.checkWin()), HttpStatus.OK);
+        return new ResponseEntity<>(new RevealResponse(false, boardService.checkWin(), boardService.getBoard()), HttpStatus.OK);
     }
 
 }

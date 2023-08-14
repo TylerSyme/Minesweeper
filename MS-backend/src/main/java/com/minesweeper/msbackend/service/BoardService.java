@@ -9,8 +9,6 @@ import java.util.Random;
 public class BoardService {
 
     Board board;
-    int width;
-    int numMines;
 
     public Board getBoard() {
         return board;
@@ -24,10 +22,8 @@ public class BoardService {
      */
     public Board createBoard(int width, int numMines) {
 
-        this.width = width;
-        this.numMines = numMines;
         Cell[][] cells = new Cell[width][width];
-        board = new Board(cells);
+        board = new Board(cells, width, numMines);
 
         for (int row = 0; row < width; row++) {
             for (int col = 0; col < width; col++) {
@@ -103,11 +99,14 @@ public class BoardService {
         Cell target = optionalCell.get();
         target.setFlagged(false);
 
+        if (target.isRevealed()) {
+            return false;
+        }
+        target.setRevealed();
+
         if (target.isMine()) {
-            target.setRevealed();
             return true;
-        } else if (!target.isRevealed() && target.getAdjacentMines() == 0) {
-            target.setRevealed();
+        } else if (target.getAdjacentMines() == 0) {
             // Reveal all surrounding cells
             for (Cell cell : board.getNeighborCells(row, col)) {
                 reveal(cell.getCoordinate().x(), cell.getCoordinate().y());
@@ -119,8 +118,8 @@ public class BoardService {
 
     public boolean checkWin() {
         int numRevealed = 0;
-        for (int row = 0; row < width; row++) {
-            for (int col = 0; col < width; col++) {
+        for (int row = 0; row < board.width(); row++) {
+            for (int col = 0; col < board.width(); col++) {
                 Optional<Cell> optionalCell = board.getCell(row, col);
                 if (optionalCell.isEmpty()) {
                     return false;
@@ -130,7 +129,7 @@ public class BoardService {
                 }
             }
         }
-        return numRevealed == width * width - numMines;
+        return numRevealed == board.width() * board.width() - board.numMines();
     }
 
     public enum Difficulty {
