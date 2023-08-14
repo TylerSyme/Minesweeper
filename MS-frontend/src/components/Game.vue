@@ -40,17 +40,14 @@ function createGame(requestUrl: string) {
     <GameBoard :initialBoard="board" @back-home="() => gameState = GameState.startScreen"
                @mine-exploded="() => gameState = GameState.gameOverLost"
                @game-won="() => gameState = GameState.gameOverWon"/>
-    <div v-show="gameState === GameState.gameOverLost || gameState === GameState.gameOverWon"
+    <div v-show="gameState === GameState.gameOverWon || gameState === GameState.gameOverLost"
          class="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center">
       <ExpandTransition>
-        <div v-if="gameState === GameState.gameOverLost" class="bg-red-600 p-8 rounded">
-          <p class="text-gray-200">Mine exploded...</p>
-        </div>
-        <div v-else-if="gameState === GameState.gameOverWon"
-             class="bg-darkgray-900 rounded-lg p-20 bg-opacity-50 shadow-lg backdrop-blur border-darkgray-800 border">
-          <h3 class="font-display text-3xl text-gray-200 text-center tracking-wide">You won!</h3>
-          <p class="text-gray-200 text-center pt-4">Congratulations!</p>
-          <div class="text-center pt-16">
+        <div class="bg-darkgray-900 rounded-lg p-20 bg-opacity-50 shadow-lg backdrop-blur border-darkgray-800 border">
+          <h3 class="font-display text-3xl text-gray-200 text-center tracking-wide">
+            {{ gameState === GameState.gameOverWon ? "You won!" : "Game over..." }}</h3>
+          <p class="text-gray-200 text-center pt-4">{{ gameState === GameState.gameOverWon ? "Congratulations!" : "Try again" }}</p>
+          <div class="flex justify-center pt-16">
             <SkewButton @click="() => gameState = GameState.startScreen">New Game</SkewButton>
           </div>
         </div>
