@@ -89,7 +89,7 @@ function revealCell(coordinate: Coordinate) {
 </script>
 
 <template>
-  <div class="bg-darkgray-900 rounded-lg p-16 pt-8 bg-opacity-30 shadow-lg backdrop-blur border-darkgray-800 border scroll-p-16" :style="{width: `${board.width * 48}px`}">
+  <div class="bg-darkgray-900/30 rounded-lg p-16 pt-8 shadow-lg backdrop-blur-sm border-darkgray-800 border scroll-p-16" :style="{width: `${board.width * 48}px`}">
     <div class="flex items-center pb-8 text-gray-200">
       <div class="flex-1"><span class="material-symbols-outlined p-1 cursor-pointer" @click="$emit('backHome')">arrow_back</span></div>
       <div class="flex-none flex">

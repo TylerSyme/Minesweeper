@@ -6,7 +6,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="aspect-square bg-opacity-70 backdrop-blur bg-darkgray-800 select-none border-transparent border"
+  <div class="aspect-square backdrop-blur-sm bg-darkgray-800/70 select-none border-transparent border"
        :style="{width: props.displayWidth + '%'}">
     <div v-if="boardCell.flagged" class="bg-darkgray-900 w-full h-full"
          @click="$emit('revealCell', boardCell.coordinate)"

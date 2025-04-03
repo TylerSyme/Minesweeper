@@ -43,7 +43,7 @@ function createGame(requestUrl: string) {
     <div v-show="gameState === GameState.gameOverWon || gameState === GameState.gameOverLost"
          class="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center">
       <ExpandTransition>
-        <div class="bg-darkgray-900 rounded-lg p-20 bg-opacity-50 shadow-lg backdrop-blur border-darkgray-800 border">
+        <div class="bg-darkgray-900/50 rounded-lg p-20 shadow-lg backdrop-blur-sm border-darkgray-800 border">
           <h3 class="font-display text-3xl text-gray-200 text-center tracking-wide">
             {{ gameState === GameState.gameOverWon ? "You won!" : "Game over..." }}</h3>
           <p class="text-gray-200 text-center pt-4">{{ gameState === GameState.gameOverWon ? "Congratulations!" : "Try again" }}</p>
